@@ -5,6 +5,7 @@ A cross-platform pixel art editor built with Flutter. Create retro-style pixel a
 ## Screenshots
 
 ### Mobile
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d145715e-e6b9-4e97-a71b-39fd55d5a2dc" width="250" />
   <img src="https://github.com/user-attachments/assets/4555e4da-d667-4c30-9152-8cab32081719" width="250" />
@@ -12,12 +13,19 @@ A cross-platform pixel art editor built with Flutter. Create retro-style pixel a
 </p>
 
 ### Web
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/09c1647e-e824-4964-a69d-e60cb5dbc9ea" width="400" />
   <img src="https://github.com/user-attachments/assets/9c258dbc-8f2f-4307-9376-0529d4eb200e" width="400" />
   <img src="https://github.com/user-attachments/assets/a4579818-9f1d-4f15-a529-f98f27d9f34c" width="400" />
   <img src="https://github.com/user-attachments/assets/92d32260-184c-4000-ae6d-9f80c00594ab" width="400" />
 </p>
+
+## Download
+
+### Android APK
+
+Download the Android APK from the [apk folder](https://github.com/RividuPesara/pixel_craft/tree/main/apk) in this repository.
 
 ## Features
 
@@ -97,3 +105,12 @@ lib/
 - `permission_handler` — Manages storage permissions required for saving images on Android and iOS.
 - `device_info_plus` — Helps handle platform-specific permission logic (for example, different Android SDK versions).
 - `universal_html` — Enables image download support when running the app on the web.
+
+## Future Development
+
+Planned features
+
+- **In-app Gallery** — View and manage all saved artworks within the app.
+- **App Logo & Branding** — Add a custom logo and branded splash screen for a polished look.
+- **Additional Canvas Sizes** — Support larger or custom pixel canvases (32x32, 64x64).
+- **Theme Toggle** — Toggle between light and dark themes.
