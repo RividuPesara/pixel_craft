@@ -5,6 +5,7 @@ A cross-platform pixel art editor built with Flutter. Create retro-style pixel a
 ## Screenshots
 
 ### Mobile
+<img width="820" height="1600" alt="image" src="https://github.com/user-attachments/assets/d145715e-e6b9-4e97-a71b-39fd55d5a2dc" /> <img width="824" height="1600" alt="image" src="https://github.com/user-attachments/assets/4555e4da-d667-4c30-9152-8cab32081719" /> <img width="819" height="1600" alt="image" src="https://github.com/user-attachments/assets/fd61ca82-3a08-412f-8bf6-a5df88ea50c5" />
 
 ### Web
 
