@@ -1,24 +1,35 @@
 # Pixel Craft
 
-A cross-platform pixel art editor built with Flutter. Create retro-style pixel art on mobile and web an intuitive drawing interface.
+A cross-platform pixel art editor built with Flutter. Create retro-style pixel art on mobile and web with an intuitive drawing interface.
 
 ## Screenshots
 
 ### Mobile
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d145715e-e6b9-4e97-a71b-39fd55d5a2dc" width="250" />
+  <img src="https://github.com/user-attachments/assets/4555e4da-d667-4c30-9152-8cab32081719" width="250" />
+  <img src="https://github.com/user-attachments/assets/fd61ca82-3a08-412f-8bf6-a5df88ea50c5" width="250" />
+</p>
 
 ### Web
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/09c1647e-e824-4964-a69d-e60cb5dbc9ea" width="400" />
+  <img src="https://github.com/user-attachments/assets/9c258dbc-8f2f-4307-9376-0529d4eb200e" width="400" />
+  <img src="https://github.com/user-attachments/assets/a4579818-9f1d-4f15-a529-f98f27d9f34c" width="400" />
+  <img src="https://github.com/user-attachments/assets/92d32260-184c-4000-ae6d-9f80c00594ab" width="400" />
+</p>
 
 ## Features
 
 - 16x16 pixel canvas for creating pixel art
 - Touch and mouse drawing support
-- Dynamic color palette with usage based sorting
+- Dynamic color palette with usage-based sorting
 - Custom color picker for unlimited colors
 - Eraser tool for corrections
 - Undo/Redo functionality
 - Clear canvas option
 - Export artwork as PNG image
-- Cross-platform support (Android,Web)
+- Cross-platform support (Android, Web)
 
 ## Getting Started
 
@@ -34,12 +45,6 @@ A cross-platform pixel art editor built with Flutter. Create retro-style pixel a
 ```bash
 git clone https://github.com/RividuPesara/pixel_craft.git
 cd pixel_craft
-```
-
-2. Install dependencies:
-
-```bash
-flutter pub get
 ```
 
 3. Run the app:
