@@ -8,6 +8,9 @@ import 'dart:typed_data';
 import 'dart:math';
 import 'dart:io';
 import 'package:universal_html/html.dart' as html;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
+import '../services/firebase_pixel_service.dart';
 import '../constants/app_theme.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -45,7 +48,11 @@ class _EditorScreenState extends State<EditorScreen> {
   void initState() {
     super.initState();
     _initCanvas();
+    _setupRealtime();
   }
+
+  late FirebasePixelService _pixelService;
+  late String _roomId;
 
   //initialize canvas with empty pixels
   void _initCanvas() {
@@ -56,6 +63,45 @@ class _EditorScreenState extends State<EditorScreen> {
     _undoStack.clear();
     _redoStack.clear();
     _colorUsage.clear();
+  }
+
+  Future<void> _setupRealtime() async {
+    //roomId from URL query parameter 'roomId' or just generate one
+    final roomFromUrl = Uri.base.queryParameters['roomId'];
+    _roomId = roomFromUrl ?? _generateRoomId();
+
+    _pixelService = FirebasePixelService(_roomId);
+
+    //fetch initial state and then listen for updates
+    await _pixelService.fetchInitial((u) {
+      _applyRemotePixel(u.x, u.y, u.color);
+    });
+
+    _pixelService.listen((u) {
+      _applyRemotePixel(u.x, u.y, u.color);
+    });
+  }
+
+  String _generateRoomId() {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    final rnd = Random.secure();
+    return List.generate(6, (_) => chars[rnd.nextInt(chars.length)]).join();
+  }
+
+  void _applyRemotePixel(int x, int y, Color? newColor) {
+    if (x < 0 || x >= _gridWidth || y < 0 || y >= _gridHeight) return;
+    setState(() {
+      final oldColor = _pixels[y][x];
+      if (oldColor != null) {
+        _colorUsage[oldColor.value] = (_colorUsage[oldColor.value] ?? 1) - 1;
+        if (_colorUsage[oldColor.value]! <= 0)
+          _colorUsage.remove(oldColor.value);
+      }
+      if (newColor != null) {
+        _colorUsage[newColor.value] = (_colorUsage[newColor.value] ?? 0) + 1;
+      }
+      _pixels[y][x] = newColor;
+    });
   }
 
   //create deep copy of pixel grid
@@ -121,6 +167,7 @@ class _EditorScreenState extends State<EditorScreen> {
     final newColor = _isEraser ? null : _currentColor;
     if (_pixels[y][x] == newColor) return;
 
+    // local change: save history and push to Firebase
     _saveToHistory();
     setState(() {
       //update color usage
@@ -135,6 +182,9 @@ class _EditorScreenState extends State<EditorScreen> {
       }
       _pixels[y][x] = newColor;
     });
+
+    //fire update to DB
+    _pixelService.setPixel(x, y, newColor);
   }
 
   //save canvas as image to device gallery
@@ -293,6 +343,15 @@ class _EditorScreenState extends State<EditorScreen> {
     );
   }
 
+  //copy shareable room link to clipboard
+  void _shareRoomLink() {
+    final currentParams = Map<String, String>.from(Uri.base.queryParameters);
+    currentParams['roomId'] = _roomId;
+    final uri = Uri.base.replace(queryParameters: currentParams);
+    Clipboard.setData(ClipboardData(text: uri.toString()));
+    _showMessage('Room link copied to clipboard');
+  }
+
   //get palette sorted by most used colors first
   List<Color> _getSortedPalette() {
     // Sort by usage (most used first)
@@ -431,6 +490,11 @@ class _EditorScreenState extends State<EditorScreen> {
         sizes: sizes,
       ),
       _ToolButton(icon: Icons.save_rounded, onTap: _saveImage, sizes: sizes),
+      _ToolButton(
+        icon: Icons.share_rounded,
+        onTap: _shareRoomLink,
+        sizes: sizes,
+      ),
     ];
 
     if (isVertical) {
